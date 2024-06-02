@@ -27,9 +27,17 @@ namespace NKStudio
             {
                 targetCamera.backgroundColor = Color.clear;
 
-                RenderTexture tempRT = new RenderTexture(targetCamera.pixelWidth, targetCamera.pixelHeight, 0,
-                    useHDR ? DefaultFormat.HDR : DefaultFormat.LDR);
+                RenderTexture tempRT;
 
+                if (useHDR)
+                {
+                    tempRT = new RenderTexture(targetCamera.pixelWidth, targetCamera.pixelHeight, 24, DefaultFormat.HDR);
+                }
+                else
+                {
+                    tempRT = new RenderTexture(targetCamera.pixelWidth, targetCamera.pixelHeight, 24, GraphicsFormat.R32G32B32A32_SFloat); 
+                }
+                
                 RenderTexture.active = tempRT;
 
                 targetCamera.targetTexture = tempRT;
@@ -40,12 +48,12 @@ namespace NKStudio
                 if (useHDR)
                 {
                     texture = new Texture2D(targetCamera.targetTexture.width, targetCamera.targetTexture.height,
-                            TextureFormat.ARGB32, false);
+                        TextureFormat.RGBAFloat, false);
                 }
                 else
                 {
                     texture = new Texture2D(targetCamera.targetTexture.width, targetCamera.targetTexture.height,
-                        TextureFormat.RGBAFloat, false);
+                        TextureFormat.RGBA32, false);
                 }
 
                 texture.ReadPixels(new Rect(0, 0, targetCamera.targetTexture.width, targetCamera.targetTexture.height),
@@ -54,17 +62,17 @@ namespace NKStudio
                 texture.Apply();
 
                 // 감마 보정 방지
-                // if (useHDR)
-                // {
-                //     Color[] pixels = texture.GetPixels();
-                //     for (int i = 0; i < pixels.Length; i++)
-                //     {
-                //         pixels[i] = pixels[i].gamma;
-                //     }
-                //
-                //     texture.SetPixels(pixels);
-                //     texture.Apply();
-                // }
+                if (!useHDR)
+                {
+                    Color[] pixels = texture.GetPixels();
+                    for (int i = 0; i < pixels.Length; i++)
+                    {
+                        pixels[i] = pixels[i].gamma;
+                    }
+                
+                    texture.SetPixels(pixels);
+                    texture.Apply();
+                }
 
                 RenderTexture.active = currentRT;
 
@@ -83,7 +91,7 @@ namespace NKStudio
                 string targetPath = $"{filePath}/{modifiedFileName}.{extension}";
 
                 if (useHDR)
-                    File.WriteAllBytes(targetPath, texture.EncodeToEXR(Texture2D.EXRFlags.CompressZIP));
+                    File.WriteAllBytes(targetPath, texture.EncodeToEXR(Texture2D.EXRFlags.OutputAsFloat));
                 else
                     File.WriteAllBytes(targetPath, texture.EncodeToPNG());
 
