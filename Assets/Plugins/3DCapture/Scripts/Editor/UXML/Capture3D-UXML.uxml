@@ -1,0 +1,15 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Plugins/3DCapture/Scripts/Editor/USS/Capture3D-Sheet.uss?fileID=7433441132597879392&amp;guid=bec2630e91265dd4f867620232871736&amp;type=3#Capture3D-Sheet" />
+    <engine:Label tabindex="-1" text="3D Capture" parse-escape-sequences="true" display-tooltip-when-elided="true" name="title-label" class="TitleStyle" />
+    <engine:VisualElement style="flex-direction: row;">
+        <engine:TextField picking-mode="Ignore" label="File Name" name="fileName-field" is-delayed="true" style="flex-grow: 1;" />
+        <engine:Button text="..." parse-escape-sequences="true" display-tooltip-when-elided="true" name="filePath-button" style="width: 28px;" />
+    </engine:VisualElement>
+    <engine:VisualElement style="flex-direction: row; padding-right: 5px; padding-left: 5px; width: 100%;">
+        <engine:Label tabindex="-1" text="Assets/" parse-escape-sequences="true" display-tooltip-when-elided="true" name="filePath-Label" style="flex-grow: 1; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; text-overflow: ellipsis; width: 80%; overflow: hidden; -unity-text-align: middle-left;" />
+        <engine:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="showFolder-button" icon-image="project://database/Assets/Plugins/3DCapture/Editor/Assets/d_popout_icon.png?fileID=2800000&amp;guid=d68754337e7a34eb18f752132717842f&amp;type=3#d_popout_icon" />
+    </engine:VisualElement>
+    <engine:EnumField label="Output Resolution" value="Center" type="NKStudio.EOutputResolution, Capture3D.Runtime" name="outputResolution-field" binding-path="outputResolution" />
+    <engine:Toggle label="HDR" name="useHDR-toggle" binding-path="useHDR" />
+    <engine:Button text="Capture" parse-escape-sequences="true" display-tooltip-when-elided="true" name="capture-button" style="height: 35px; border-top-left-radius: 9px; border-top-right-radius: 9px; border-bottom-right-radius: 9px; border-bottom-left-radius: 9px; font-size: 15px; margin-top: 5px;" />
+</engine:UXML>
